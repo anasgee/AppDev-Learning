@@ -1,13 +1,32 @@
-import { StyleSheet, Image, Platform } from 'react-native';
-
+import { StyleSheet, Image, Platform, ActivityIndicator } from 'react-native';
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { useEffect, useState } from 'react';
 
 export default function TabTwoScreen() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <ThemedView style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#808080" />
+        <ThemedText>Loading...</ThemedText>
+      </ThemedView>
+    );
+  }
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
@@ -18,7 +37,8 @@ export default function TabTwoScreen() {
           name="chevron.left.forwardslash.chevron.right"
           style={styles.headerImage}
         />
-      }>
+      }
+    >
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Explore</ThemedText>
       </ThemedView>
@@ -106,4 +126,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+  },
 });
+  
