@@ -15,7 +15,7 @@ export default function MenuScreen(){
     const styles = createStyle(theme,colorScheme)
     const separatorComp = <View style={styles.separator}/>
     const headerComp = <Text>Top Of the list</Text>
-    const footerComp = <Text>End Of the list</Text>
+    const footerComp = <Text>End Of the Menu</Text>
 
     return(
         <Container>
@@ -23,19 +23,20 @@ export default function MenuScreen(){
             contentContainerStyle={styles.contentContainer}
             data = {MENU_ITEMS}
             ItemSeparatorComponent={separatorComp}
-            ListHeaderComponent={headerComp}
+            // ListHeaderComponent={headerComp}
             ListFooterComponent={footerComp}
             ListFooterComponentStyle={styles.footerComp}
             // ListHeaderComponentStyle={""}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item)=>item.id.toString()}   
+            ListEmptyComponent={<Text>No Items here</Text>}
             renderItem={({item})=>(
-                    <View>
-                        <View>
-                            <Text>{item.title} </Text>
-                            <Text>{item.description} </Text>
+                    <View style={styles.row}>
+                        <View style={styles.menuTextRow}>
+                            <Text style={styles.menuItemTitle}>{item.title} </Text>
+                            <Text style={styles.menuItemText}>{item.description} </Text>
                         </View>
-                        <Image source={MenuImages[item.id - 1]}/>
+                        <Image style={styles.img} source={MenuImages[item.id -1]}/>
                     </View>
             )}/>
         </Container>
@@ -62,6 +63,39 @@ function createStyle(theme,colorScheme){
                         },
                         footerComp:{
                             marginHorizontal:'auto'
-                        }
+            },
+            img:{
+                width:300,
+                height:300
+            },
+            row:{
+                flexDirection:'row',
+                width:'100%',
+                maxWidth:600,
+                height:100,
+                marginBottom:10,
+                borderStyle:'solid',
+                borderColor:colorScheme==='dark' ? 'papayawhip':'#000',
+                borderWidth:1,
+                borderRadius:20,
+                overflow:'hidden',
+                marginHorizontal:'auto'
+            },
+            menuTextRow:{
+                width:'65%',
+                paddingTop:10,
+                paddingLeft:10,
+                paddingRight:5,
+                flexGrow:1,
+            },
+            menuItemTitle:{
+                fontSize:18,
+                textDecorationLine:'underline',
+            
+            },
+            menuItemText:{
+                color:theme.text
+            }
+
  })
 }
